@@ -7,7 +7,6 @@ function launchOSU(osu, beatmapid, version){
             trackid = i;
     console.log("launching", beatmapid, version)
     if (trackid == -1) {
-        if (log_to_server) log_to_server("unmatch " + beatmapid + " " + version);
         console.error("no suck track");
         console.log("available tracks are:");
         for (let i=0; i<osu.tracks.length; ++i)
@@ -21,7 +20,7 @@ function launchOSU(osu, beatmapid, version){
     let app = window.app = new PIXI.Application({
         width: window.innerWidth,
         height: window.innerHeight,
-        resolution: (window.game.overridedpi? window.game.dpiscale: window.devicePixelRatio) || 1,
+        resolution: window.devicePixelRatio || 1,
         autoResize: true,
     });
     app.renderer.autoResize = true;
@@ -29,9 +28,6 @@ function launchOSU(osu, beatmapid, version){
 
     // remember where the page is scrolled to
     let scrollTop = document.body.scrollTop;
-    // save alert function and replace with silent alert to prevent pop-up in game
-    let defaultAlert = window.alert;
-    window.alert = function(msg){console.log("IN-GAME ALERT " + msg);};
     // get ready for gaming
     document.addEventListener("contextmenu", function(e) {
         e.preventDefault();
@@ -95,8 +91,6 @@ function launchOSU(osu, beatmapid, version){
         document.body.classList.remove("gaming");
         // restore page scroll position
         document.body.scrollTop = scrollTop;
-        // restore alert function
-        window.alert = defaultAlert;
         // TODO application level clean up
         if (game.cursor) {
             game.stage.removeChild(game.cursor);
@@ -116,8 +110,7 @@ function launchOSU(osu, beatmapid, version){
         // stop beatmap preview
         let audios = document.getElementsByTagName("audio");
         for (let i=0; i<audios.length; ++i)
-            if (audios[i].softstop)
-                audios[i].softstop();
+            audios[i].softstop();
     }
     playback.load(); // load audio
 
