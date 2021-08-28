@@ -2,8 +2,8 @@
 
 A fork of 111116's webosu. Added a section in settings for custom hitsounds.   
  * Hitsounds must be in the .ogg format and multiple can be dragged in at once.   
-`Here is a list of the required hitsounds:   
-[
+Here is a list of the required hitsounds:   
+``[
 'normal-hitnormal.ogg',
 'normal-hitwhistle.ogg',
 'normal-hitfinish.ogg',
@@ -20,7 +20,7 @@ A fork of 111116's webosu. Added a section in settings for custom hitsounds.
 'drum-hitclap.ogg',
 'drum-slidertick.ogg',
 'combobreak.ogg',
-]`
+]``   
 Without these, webosu will automatically default to normal hitsounds. Any corrupt hitsounds will be replaced with default ones. 
    
 ## Original README:    
