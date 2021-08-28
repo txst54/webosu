@@ -1,8 +1,8 @@
-# ¡nso
+# Custom Hitsounds!
 
 A fork of 111116's webosu. Added a section in settings for custom hitsounds.   
-Hitsounds must be in the .ogg format and multiple can be dragged in at once.   
-Here is a list of the required hitsounds:   
+ * Hitsounds must be in the .ogg format and multiple can be dragged in at once.   
+`Here is a list of the required hitsounds:   
 [
 'normal-hitnormal.ogg',
 'normal-hitwhistle.ogg',
@@ -20,10 +20,10 @@ Here is a list of the required hitsounds:
 'drum-hitclap.ogg',
 'drum-slidertick.ogg',
 'combobreak.ogg',
-]
+]`
 Without these, webosu will automatically default to normal hitsounds. Any corrupt hitsounds will be replaced with default ones. 
    
-Original README:    
+## Original README:    
 A browser rhythm game where players click circles following rhythm of the music.
 
 Powered by [PixiJS](https://www.pixijs.com). Beatmap source: [Sayobot](https://osu.sayobot.cn).
