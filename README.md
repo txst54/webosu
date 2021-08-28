@@ -25,7 +25,15 @@ Here is a list of the required hitsounds:
 ]``   
 
 Without these, webosu will automatically default to normal hitsounds. Any corrupt hitsounds will be replaced with default ones. 
-   
+
+Files Modified: 
+
+ - settings.html
+ - settings.js
+ - initgame.js
+ - sound.js
+
+
 ## Original README:    
 A browser rhythm game where players click circles following rhythm of the music.
 
