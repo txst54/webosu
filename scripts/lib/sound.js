@@ -201,7 +201,7 @@ var sounds = {
   //Properties to help track the assets being loaded.
   toLoad: 0,
   loaded: 0,
-
+  failed: [],
   //File extensions for different types of sounds.
   audioExtensions: ["mp3", "ogg", "wav", "webm"],
 
@@ -214,6 +214,19 @@ var sounds = {
 
   //The callback function to run if an asset fails to load or decode
   onFailed: function (source, error) {
+	var self = this;
+	source = "hitsounds/"+source
+	var soundSprite = makeSound(source, self.loadHandler.bind(self), true, false, self.onFailed);
+	//Get the sound file name.
+	soundSprite.name = source;
+
+	//If you just want to extract the file name with the
+	//extension, you can do it like this:
+	//soundSprite.name = source.split("/").pop();
+	//Assign the sound as a property of the assets object so
+	//we can access it like this: `assets["sounds/sound.mp3"]`.
+	soundSprite.name = source.split("/").pop()
+	self[soundSprite.name] = soundSprite;
     throw new Error("Audio could not be loaded: " + source);
   },
 
@@ -241,7 +254,6 @@ var sounds = {
 
         //Create a sound sprite.
         var soundSprite = makeSound(source, self.loadHandler.bind(self), true, false, self.onFailed);
-
         //Get the sound file name.
         soundSprite.name = source;
 
@@ -250,7 +262,9 @@ var sounds = {
         //soundSprite.name = source.split("/").pop();
         //Assign the sound as a property of the assets object so
         //we can access it like this: `assets["sounds/sound.mp3"]`.
+		soundSprite.name = source.split("/").pop()
         self[soundSprite.name] = soundSprite;
+		
       }
 
       //Display a message if the file type isn't recognized.
@@ -258,6 +272,23 @@ var sounds = {
         console.log("File type not recognized: " + source);
       }
     });
+  },
+  //loading custom skin hit sounds with a preloaded array buffer encoded in base64
+  cload: function (sources) {
+	var self = this;
+	self.toLoad = Object.keys(sources).length;
+	for (s in sources) {
+		console.log(s)
+		console.log(base64ToArrayBuffer(sources[s]));
+		var soundSprite = makeSound(s, self.loadHandler.bind(self), false, base64ToArrayBuffer(sources[s]), self.onFailed);
+		soundSprite.name = s;
+		self[soundSprite.name] = soundSprite;
+	}
+	console.log(self)
+	if (self.failed.length > 0) {
+		self.load(self.failed)
+	}
+	console.log(self)
   },
 
   //#### loadHandler
@@ -352,6 +383,16 @@ same, you'll know that all your sound files have finished decoding and you can p
 of you application. (The [Hexi game engine](https://github.com/kittykatattack/hexi) uses `makeSound` in this way.)
 
 */
+
+function base64ToArrayBuffer(base64) {
+    var binary_string =  window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array( len );
+    for (var i = 0; i < len; i++)        {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
 
 function makeSound(source, loadHandler, shouldLoadSound, xhr, failHandler) {
 
@@ -611,7 +652,7 @@ function makeSound(source, loadHandler, shouldLoadSound, xhr, failHandler) {
 
   //Optionally, if you've loaded the sound using some other loader, just decode the sound
   if (xhr) {
-    decodeAudio(o, xhr, loadHandler, failHandler);
+    decodeCustomAudio(o, xhr, loadHandler, failHandler);
   }
 
   //Return the sound object.
@@ -641,6 +682,7 @@ function loadSound(o, source, loadHandler, failHandler) {
 function decodeAudio(o, xhr, loadHandler, failHandler) {
 
   //Decode the sound and store a reference to the buffer.
+  console.log(xhr.response)
   actx.decodeAudioData(
     xhr.response,
     function (buffer) {
@@ -656,6 +698,29 @@ function decodeAudio(o, xhr, loadHandler, failHandler) {
     },
     function (error) {
       if (failHandler) failHandler(o.source, error);
+    }
+  );
+}
+
+function decodeCustomAudio(o, xhr, loadHandler, failHandler) {
+
+  //Decode the sound and store a reference to the buffer.
+  actx.decodeAudioData(
+    xhr,
+    function (buffer) {
+      o.buffer = buffer;
+      o.hasLoaded = true;
+
+      //This next bit is optional, but important.
+      //If you have a load manager in your game, call it here so that
+      //the sound is registered as having loaded.
+      if (loadHandler) {
+        loadHandler(o.source);
+      }
+    },
+    function (error) {
+	  sounds.failed.push("hitsounds/"+o.source);
+      if (failHandler) sounds.onFailed(o.source, error);
     }
   );
 }

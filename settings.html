@@ -115,27 +115,6 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div class="option-name">
-                                使用系统分辨率
-                            </div>
-                            <div class="option-control">
-                                <input id="sysdpi-check" type="checkbox" /><span></span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="option-name">
-                                分辨率
-                            </div>
-                            <div class="option-control">
-                                <input id="dpi-range" class="slider" type="range" min="0.5" max="2.0" value="1.0" step="0.05">
-                                <div class="range-indicator" id="dpi-range-indicator" hidden></div>
-                            </div>
-                        </td>
-                    </tr>
 
                     <tr>
                         <td>
@@ -194,16 +173,6 @@
                             <div class="option-control">
                                 <input id="pausebuttonselect" type="button" value="oops"/>
                                 <input id="pausebutton2select" type="button" value="oops"/>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="option-name">
-                                跳过前奏
-                            </div>
-                            <div class="option-control">
-                                <input id="skipbuttonselect" type="button" value="oops"/>
                             </div>
                         </td>
                     </tr>
@@ -376,6 +345,16 @@
                             </div>
                         </td>
                     </tr>
+					<tr>
+                        <td>
+                            <div class="option-name">
+                                .osk -> custom hit sounds
+                            </div>
+                            <div class="option-control">
+                                <input id="skinhitsound" style="padding: 10px 10px 30px 10px" type="file" accept=".ogg,.wav" name="skin[]" multiple/><span></span>
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <br/>
@@ -385,14 +364,5 @@
                 </table>
             </div>
         </div>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-169262247-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-169262247-1');
-</script>
     </body>
 </html>
